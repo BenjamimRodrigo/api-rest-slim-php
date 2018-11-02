@@ -1,4 +1,4 @@
-# api-rest-slim-php
+# Projeto Slim PHP - API REST Academia
 Um simples exemplo de uma API REST desenvolvida com a ajuda do micro framework Slim PHP.
 
 FACOL - Faculdade Escritor Osman da Costa Lins
