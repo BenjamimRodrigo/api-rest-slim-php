@@ -72,35 +72,29 @@ class Aluno extends Model {
 			$dados = (sizeof($dados) == 0) ? $_POST : $dados;
 			$keys = array_keys($dados);
 			
-			$aluno = json_decode($this->get($id), true);
-			
-			if($aluno['aluno'] != null){
 
-				if(count($keys) > 0){
+			if(count($keys) > 0){
 
-					$sqlSET = " SET ";
-					foreach ($keys as $key) {
-						$sqlSET .= "$key = :$key, ";
-					}
-
-					$sql = "UPDATE tb_aluno $sqlSET WHERE codigo = :id";
-
-					$sql = str_replace(',  WHERE', ' WHERE', $sql);
-
-					$sth = $this->PDO->prepare($sql);
-					foreach ($dados as $key => $value) {
-						$sth ->bindValue(':'.$key, $value);
-					}
-					$sth ->bindValue(':id', $id);
-					$sth->execute();
-
-					// Retorna o aluno alterado
-					$this->get($id);
-				} else {
-					echo json_encode(["status" => false, "erro" => "Nenhum dado foi passado para a alteração."]);
+				$sqlSET = " SET ";
+				foreach ($keys as $key) {
+					$sqlSET .= "$key = :$key, ";
 				}
+
+				$sql = "UPDATE tb_aluno $sqlSET WHERE codigo = :id";
+
+				$sql = str_replace(',  WHERE', ' WHERE', $sql);
+
+				$sth = $this->PDO->prepare($sql);
+				foreach ($dados as $key => $value) {
+					$sth ->bindValue(':'.$key, $value);
+				}
+				$sth ->bindValue(':id', $id);
+				$sth->execute();
+
+				// Retorna o aluno alterado
+				$this->get($id);
 			} else {
-				echo json_encode(["status" => false, "erro" => "Não foi encontrado nenhum cadastro para alterar."]);
+				echo json_encode(["status" => false, "erro" => "Nenhum dado foi passado para a alteração."]);
 			}
 		} catch(PDOException $e){
 			echo json_encode(["status" => false, "erro"=>$e->errorInfo[2]]);
